@@ -80,14 +80,23 @@ int jugable(char *palabraSecreta) {
         if (bot == 'S') {
             sleep(1);
             char* sugerencia = obtenerSugerencia(tablero, filaActual-1);
-            for (int j = 0; j < COLUMNAS; j++) {
-                tablero[filaActual][j].letra = toupper(sugerencia[j]);
+
+            if (sugerencia == NULL) {
+                printf("No se encontraron mas palabras en la base de datos para sugerir. Puedes jugar por tu cuenta!\nPresiona Enter para continuar");
+                getchar();
+                bot = 'N';
+            } else {
+                for (int j = 0; j < COLUMNAS; j++) {
+                    tablero[filaActual][j].letra = toupper(sugerencia[j]);
+                }
+                elegirColor(tablero, filaActual, palabraSecreta);
+                imprimirTablero(tablero, filaActual, COLUMNAS - 1);
+                free(sugerencia);
             }
-            elegirColor(tablero, filaActual, palabraSecreta);
-            imprimirTablero(tablero, filaActual, COLUMNAS - 1);
-            free(sugerencia);
-        } else {
-            rellenar(tablero, filaActual,palabraSecreta);
+        }
+
+        if (bot == 'N') {
+            rellenar(tablero, filaActual, palabraSecreta);
         }
 
         if (comprobar(tablero, filaActual)) {

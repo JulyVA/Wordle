@@ -11,19 +11,22 @@ char* obtenerSugerencia(Letra** tablero, int filaActual) {
     int conteoVerdes[26] = {0};
     int eliminarIndices[totalPalabras];
     int eliminarCount = 0;
-
-    //guarda las verdes y cuenta cuantas veces se repiten
+    char ingresada[COLUMNAS+1];
+    
+    //guarda las verdes y cuenta cuantas veces se repiten, y registra la palabra ingresada para luego eliminarla de posibles sugerencias
     for (int i = 0; i < COLUMNAS; i++) {
         if (tablero[filaActual][i].color == 'V') {
             conteoVerdes[tablero[filaActual][i].letra - 'A']++;
         }
+        ingresada[i]=tablero[filaActual][i].letra;
     }
+    ingresada[COLUMNAS]='\0';
+    eliminarPalabra(ingresada);
 
     //guarda las grises y cuenta cuantas hay
     for (int i = 0; i < COLUMNAS; i++) {
         char letra = tablero[filaActual][i].letra;
         char color = tablero[filaActual][i].color;
-
         if (color == 'G' && conteoVerdes[letra - 'A'] == 0) {
             if (strchr(grises, letra) == NULL) {
                 grises[cgrises++] = letra;
@@ -99,7 +102,7 @@ char* obtenerSugerencia(Letra** tablero, int filaActual) {
     for (int i = eliminarCount - 1; i >= 0; i--) {
         eliminarPalabra(palabras[eliminarIndices[i]].palabra);
     }
-
+    
     return sugerencia;
 }
 
