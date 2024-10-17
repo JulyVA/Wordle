@@ -1,6 +1,6 @@
 #include "jugable.h"
 
-#include <conio.h>
+#include "conio.h"
 
 int jugable(char *palabraSecreta) {
     system(limpiar);
@@ -182,13 +182,13 @@ void rellenar(Letra** tablero, int filaActual, const char* palabraSecreta) {
 
     while (!confirmada) {
         int ch = _getch();
-        if (ch == 8) {  //ASCII 8=borrar
+        if (ch == 127) { 
             if (i > 0) {
                 i--;
                 tablero[filaActual][i].letra = ' ';
                 imprimirTablero(tablero, filaActual, i);
             }
-        } else if (ch == 13) {  //ASCII 8=borrar
+        } else if (ch == 10) { 
             if (i == COLUMNAS) {
                 confirmada = 1;
             }
